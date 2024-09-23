@@ -5,25 +5,37 @@ import {
   Navigate,
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Dashboard from "./components/Dashboard";
-import Activity from "./components/Activity";
+import CreateInvoice from "./components/CreateInvoice";
+import Credentials from "./components/Credentials";
+import SignUp from "./SignUp";
 
 function App() {
+  const excludedPath = ["/signup"];
+
   return (
     <Router>
-      <div className="flex">
-        {/* Side Navigation Bar */}
-        <Navbar />
-        <main className="grow">
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard"/>} />
-            
-            {/* Define the routes for your components */}
-            <Route path="/dashboard" exact element={<Dashboard />} />
-            <Route path="/activity" element={<Activity />} />
-          </Routes>
-        </main>
-      </div>
+      <Routes>
+        <Route
+          path="*"
+          element={
+            <div className="flex">
+              {!excludedPath.includes(window.location.pathname) && <Navbar />}
+              <main className="grow">
+                <Routes>
+                  <Route path="/" element={<Navigate to="/createInvoice" />} />
+                  <Route
+                    path="/createinvoice"
+                    exact
+                    element={<CreateInvoice />}
+                  />
+                  <Route path="/credentials" element={<Credentials />} />
+                  <Route path="/signup" element={<SignUp />} />
+                </Routes>
+              </main>
+            </div>
+          }
+        />
+      </Routes>
     </Router>
   );
 }
